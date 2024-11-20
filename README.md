@@ -8,15 +8,15 @@ Assess the fidelity and novelty of synthetic samples with respect to original sa
 
 ...all with a single line of Python code 💥.
 
-## Getting Started
+## Installation
 
-### Installation
+The latest release of `mostlyai-qa` can be installed via pip:
 
 ```bash
 pip install -U mostlyai-qa
 ```
 
-### Basic Usage
+## Basic usage
 
 ```python
 from mostlyai import qa
@@ -49,7 +49,7 @@ report_path, metrics = qa.report(
 )
 ```
 
-### Syntax
+## Function signature
 
 ```python
 def report(
@@ -121,30 +121,30 @@ def report(
 
 ## Metrics
 
-We calculate three sets of metrics to compare synthetic data with the original data.
+Three sets of metrics are calculated to compare synthetic data with the original data.
 
 ### Accuracy
 
-We calculate discretized marginal distributions for all columns, to then calculate the L1 distance between the synthetic and the original training data.
-The reported accuracy is then expressed as 100% minus the total variational distance (TVD), which is half the L1 distance between the two distributions.
-We then average across these accuracies to get a single accuracy score. The higher the score, the better the synthetic data.
+The L1 distances between the discretized marginal distributions of the synthetic and the original training data are being calculated for all columns.
+The reported accuracy is expressed as 100% minus the total variational distance (TVD), which is half the L1 distance between the two distributions.  
+These accuracies are then averaged to produce a single accuracy score, where higher scores indicate better synthetic data.
 
-1. **Univariate Accuracy**: We measure the accuracy for the univariate distributions for all target columns.
-2. **Bivariate Accuracy**: We measure the accuracy for all pair-wise distributions for target columns, as well as for target columns with respect to the context columns.
-3. **Coherence Accuracy**: We measure the accuracy for the auto-correlation for all target columns. Only applicable for sequential data.
+1. **Univariate Accuracy**: The accuracy of the univariate distributions for all target columns is measured.  
+2. **Bivariate Accuracy**: The accuracy of all pair-wise distributions for target columns, as well as for target columns with respect to the context columns, is measured.  
+3. **Coherence Accuracy**: The accuracy of the auto-correlation for all target columns is measured. This is applicable only for sequential data.  
 
-An overall accuracy score is then calculated as the average of these aggregate-level scores.
+An overall accuracy score is calculated as the average of these aggregate-level scores.
 
 ### Similarity
 
-We embed all records into an embedding space, to calculate two metrics:
+All records are embedded into an embedding space to calculate two metrics:
 
-1. **Cosine Similarity**: We calculate the cosine similarity between the centroids of the synthetic and the original training data. This is then compared to the cosine similarity between the centroids of the original training and holdout data. The higher the score, the better the synthetic data.
-2. **Discriminator AUC**: We train a binary classifier to check whether one can distinguish between synthetic and original training data based on their embeddings. This is again compared to the same metric for the original training and holdout data. A score close to 50% indicates, that synthetic samples are indistinguishable from original samples.
+1. **Cosine Similarity**: The cosine similarity between the centroids of the synthetic and the original training data is calculated and compared to the cosine similarity between the centroids of the original training and holdout data. Higher scores indicate better synthetic data.  
+2. **Discriminator AUC**: A binary classifier is trained to determine whether synthetic and original training data can be distinguished based on their embeddings. This score is compared to the same metric for the original training and holdout data. A score close to 50% indicates that synthetic samples are indistinguishable from original samples.  
 
 ### Distances
 
-We again embed all records into an embedding space, to then measure individual-level L2 distances between samples. For each synthetic sample, we calculate the distance to the nearest original sample (DCR). We once do this with respect to original training records, and once with respect to holdout records, and then compare these DCRs to each other. For privacy-safe synthetic data we expect to see that synthetic data is just as close to original training data, as it is to original holdout data.
+All records are embedded into an embedding space, and individual-level L2 distances between samples are measured. For each synthetic sample, the distance to the nearest original sample (DCR) is calculated. This is done once with respect to original training records and once with respect to holdout records. These DCRs are then compared. For privacy-safe synthetic data, it is expected that synthetic data is as close to original training data as it is to original holdout data.
 
 ## Sample HTML Report
 
@@ -155,4 +155,4 @@ We again embed all records into an embedding space, to then measure individual-l
 ![Similarity](./docs/screenshots/similarity.png)
 ![Distances](./docs/screenshots/distances.png)
 
-See the [examples](./examples/) directory for further examples.
+See [here](./examples/) for further examples.
