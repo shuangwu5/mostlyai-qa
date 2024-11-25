@@ -1,6 +1,6 @@
 name: Pre-Commit Check
 
-on: [push]
+on: [workflow_call]
 
 jobs:
   pre-commit-check:
